@@ -2,13 +2,7 @@ local logger = require("multiterm._utils.logger")
 
 local M = {}
 
---- Creates a new floating window.
--- @param buffer number: The buffer to use for the window.
--- @param opts table: Options for creating the window.
--- @field width number: The width of the window (optional).
--- @field height number: The height of the window (optional).
--- @return number: The window ID.
-M.create_window = function(buffer, opts)
+M.create = function(buffer, opts)
   local width = opts.width or math.floor(vim.o.columns * 0.8)
   local height = opts.height or math.floor(vim.o.lines * 0.8)
 
@@ -27,6 +21,20 @@ M.create_window = function(buffer, opts)
   local window = vim.api.nvim_open_win(buffer, true, window_config)
 
   return window
+end
+
+
+M.hide = function(window)
+  if M.is_valid then
+    logger.log(logger.levels.DEBUG, "Hiding window: " .. window)
+    vim.api.nvim_win_hide(window)
+  else
+    logger.log(logger.levels.WARN, "Tried to hide invalid window: " .. window)
+  end
+end
+
+M.is_valid = function(window)
+  return vim.api.nvim_win_is_valid(window)
 end
 
 return M
