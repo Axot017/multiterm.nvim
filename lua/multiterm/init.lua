@@ -1,6 +1,7 @@
 local config = require("multiterm.config")
 local logger = require("multiterm._utils.logger")
 local term_manager = require("multiterm.term_manager")
+local binder = require("multiterm._utils.binder")
 
 local M = {}
 
@@ -18,11 +19,7 @@ M.toggle = function(binding)
 end
 
 M.bind_toggle = function()
-  vim.schedule(function()
-    local key = vim.fn.getchar()
-    local binding = vim.fn.nr2char(key)
-    M.toggle(binding)
-  end)
+  binder.bind(M.toggle)
 end
 
 M.remove = function(binding)
@@ -35,11 +32,7 @@ M.remove = function(binding)
 end
 
 M.bind_remove = function()
-  vim.schedule(function()
-    local key = vim.fn.getchar()
-    local binding = vim.fn.nr2char(key)
-    M.remove(binding)
-  end)
+  binder.bind(M.remove)
 end
 
 M.remove_all = function()
