@@ -7,7 +7,7 @@ vim.api.nvim_create_user_command("MultitermToggle",
     nargs = 1,
   })
 
-vim.api.nvim_create_user_command("MultitermRemoveone",
+vim.api.nvim_create_user_command("MultitermRemove",
   function(opts)
     multiterm.remove(opts.fargs[1])
   end, {
