@@ -52,10 +52,20 @@ local function get_or_create_buffer(term)
   return buffer
 end
 
+local function read_window_config()
+  local window_config = config.get().window
+
+  if type(window_config) == "function" then
+    return window_config()
+  end
+
+  return window_config
+end
+
 local function open_terminal(term)
   logger.log(logger.levels.DEBUG, "Opening terminal: " .. term.binding)
   local buffer = get_or_create_buffer(term)
-  local win = window.create(buffer, config.get().window)
+  local win = window.create(buffer, read_window_config())
 
   local new_term = {
     buffer = buffer,
