@@ -10,26 +10,18 @@ local info = health.info or health.report_info
 
 local function check_dependencies()
   start("Dependencies")
-  
+
   -- Check Neovim version
   local nvim_version = vim.version()
   local version_string = string.format("%d.%d.%d", nvim_version.major, nvim_version.minor, nvim_version.patch)
-  
+
   if nvim_version.major >= 0 and nvim_version.minor >= 5 then
     ok("Neovim version: " .. version_string)
   else
     warn("Neovim version: " .. version_string)
     info("multiterm.nvim works best with Neovim >= 0.5")
   end
-  
-  -- Check terminal feature
-  if vim.fn.has('terminal') == 1 then
-    ok("Terminal feature: available")
-  else
-    error("Terminal feature: not available")
-    info("multiterm.nvim requires Neovim's terminal feature")
-  end
-  
+
   -- Check floating windows support
   if vim.fn.exists('*nvim_open_win') == 1 then
     ok("Floating windows: supported")
@@ -41,21 +33,21 @@ end
 
 local function check_configuration()
   start("Configuration")
-  
+
   local config_loaded = pcall(require, "multiterm.config")
-  
+
   if config_loaded then
     ok("Configuration module loaded")
   else
     error("Configuration module not loaded")
     info("Could not load multiterm.config module")
   end
-  
+
   local utils_loaded = true
   utils_loaded = utils_loaded and pcall(require, "multiterm._utils.logger")
   utils_loaded = utils_loaded and pcall(require, "multiterm._utils.binder")
   utils_loaded = utils_loaded and pcall(require, "multiterm._utils.window")
-  
+
   if utils_loaded then
     ok("Utility modules loaded")
   else
@@ -70,3 +62,4 @@ function M.check()
 end
 
 return M
+
