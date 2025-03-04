@@ -37,9 +37,7 @@ Then run `:PackerSync`
 ```lua
 {
   'Axot017/multiterm.nvim',
-  config = function()
-    require('multiterm').setup()
-  end
+  opts = {}
 }
 ```
 
