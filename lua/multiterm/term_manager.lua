@@ -79,6 +79,7 @@ local function open_terminal(term)
   end
 
   state.active_term = term.binding
+  vim.cmd('startinsert')
 end
 
 local function close_terminal(term)
