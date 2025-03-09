@@ -93,6 +93,26 @@ end
 
 local M = {}
 
+M.send_text = function(binding, text)
+  local term = get_term(binding)
+  logger.log(logger.levels.DEBUG, "Current terminal " .. binding .. " state: " .. vim.inspect(term))
+  if state.active_term ~= nil and state.active_term ~= binding then
+    close_terminal(state.terms[state.active_term])
+    open_terminal(term)
+  elseif not is_termianl_open(term) then
+    open_terminal(term)
+  end
+
+  term = get_term(binding)
+
+  local success, job_id = pcall(vim.api.nvim_buf_get_var, term.buffer, "terminal_job_id")
+  if success and job_id then
+    vim.api.nvim_chan_send(job_id, text)
+  else
+    logger.log(logger.levels.ERROR, "Failed to get terminal job ID for binding: " .. binding)
+  end
+end
+
 M.toggle = function(binding)
   local term = get_term(binding)
   logger.log(logger.levels.DEBUG, "Current terminal " .. binding .. " state: " .. vim.inspect(term))
