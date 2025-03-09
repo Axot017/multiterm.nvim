@@ -99,6 +99,9 @@ end
 | `bind_remove()` | Interactively select a terminal to remove |
 | `remove_all()` | Remove all terminals |
 | `close_active()` | Close the currently active terminal |
+| `send_text(binding, text)` | Send text to a terminal with specific binding |
+| `send_selection(binding)` | Send visually selected text to a terminal with specific binding |
+| `bind_send_selection()` | Interactively bind a key to send visually selected text to a terminal |
 
 ### Example Keymaps
 
@@ -122,6 +125,15 @@ vim.keymap.set('n', '<leader>ra', function() require('multiterm').remove_all() e
 
 -- Close active terminal
 vim.keymap.set('n', '<leader>tc', function() require('multiterm').close_active() end)
+
+-- Send text to a terminal with binding 'g'
+vim.keymap.set('n', '<leader>sg', function() require('multiterm').send_text('g', 'echo "Hello world"\n') end)
+
+-- Send visually selected text to a terminal with binding 'g'
+vim.keymap.set('v', '<leader>sg', function() require('multiterm').send_selection('g') end)
+
+-- Interactively choose a terminal to send visually selected text to
+vim.keymap.set('v', '<leader>sb', function() require('multiterm').bind_send_selection() end)
 ```
 
 ### Workflow Example
@@ -131,6 +143,21 @@ vim.keymap.set('n', '<leader>tc', function() require('multiterm').close_active()
 3. A new terminal will open
 4. Press `<leader>tg` to toggle this terminal on/off
 5. Create more terminals with different bindings as needed
+
+### Vim Commands
+
+The plugin also provides the following Vim commands:
+
+| Command | Description |
+|---------|-------------|
+| `:MultitermToggle <binding>` | Toggle terminal with specific binding |
+| `:MultitermBindToggle` | Interactively bind a key to toggle a terminal |
+| `:MultitermRemove <binding>` | Remove terminal with specific binding |
+| `:MultitermBindRemove` | Interactively select a terminal to remove |
+| `:MultitermRemoveAll` | Remove all terminals |
+| `:MultitermCloseActive` | Close the currently active terminal |
+| `:MultitermSendSelection <binding>` | Send visually selected text to a terminal with specific binding |
+| `:MultitermBindSendSelection` | Interactively bind a key to send visually selected text to a terminal |
 
 ## Health Check
 
