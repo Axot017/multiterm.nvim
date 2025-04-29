@@ -78,6 +78,22 @@ local function open_terminal(term)
     initialize_terminal_buffer(buffer)
   end
 
+  local mappings = config.get().mappings
+  for mode, mode_mappings in pairs(mappings) do
+    for key, action in pairs(mode_mappings) do
+      local opts = {}
+      if type(action) == "table" then
+        opts = action.opts or {}
+        action = action.action
+      end
+      opts["buffer"] = term.buffer
+      logger.log(logger.levels.DEBUG, "Setting keymap: mode=" .. mode .. ", key=" .. key .. ", buffer=" .. buffer)
+
+      vim.keymap.set(mode, key, action, opts)
+    end
+  end
+
+
   state.active_term = term.binding
   vim.cmd('startinsert')
 end

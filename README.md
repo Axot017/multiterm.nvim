@@ -51,7 +51,24 @@ Then run `:LazySync`
 require('multiterm').setup({
   -- Logging level (1=DEBUG, 2=INFO, 3=WARN, 4=ERROR)
   log_level = 4,
-  
+
+  -- Terminal-specific key mappings
+  mappings = {
+    -- Mode-specific mappings
+    t = {
+      -- Key = action or {action = action, opts = {}}
+      ["<C-x>"] = "<C-\\><C-n>",
+      ["<Esc>"] = {
+        action = "<C-\\><C-n>",
+        opts = {desc = "Exit terminal mode"}
+      }
+    },
+    n = {
+      -- Normal mode mappings for terminal buffers
+      ["q"] = function() require('multiterm').close_active() end
+    }
+  },
+
   -- Window configuration (can be a table or a function that returns a table)
   window = {
     relative = "editor",
