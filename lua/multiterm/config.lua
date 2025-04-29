@@ -1,8 +1,8 @@
 local M = {}
 
-
 local _default_config = {
   log_level = 4,
+  mappings = {},
   window = function()
     local default_width = math.floor(vim.o.columns * 0.8)
     local default_height = math.floor(vim.o.lines * 0.8)
